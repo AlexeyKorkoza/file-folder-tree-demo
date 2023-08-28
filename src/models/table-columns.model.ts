@@ -4,7 +4,7 @@ export interface TableColumnsModel {
   id: string;
   name: string;
   size: string;
-  extenstion?: string;
+  extension?: string;
   type: TypeEnum;
   date: Date;
 }

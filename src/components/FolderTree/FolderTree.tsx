@@ -18,7 +18,6 @@ export const FolderTree: FC<Props> = ({ data, handleActiveNode, searchTerm, sele
   const treeRef = useRef();
 
   const onSelect = (nodes: NodeApi<TreeModel>[]) => {
-    console.log("onSelect", nodes);
     if (nodes.length) {
       const node = nodes[0];
       const { data } = node;
@@ -27,7 +26,7 @@ export const FolderTree: FC<Props> = ({ data, handleActiveNode, searchTerm, sele
   };
 
   return (
-    <div>
+    <div className="border-r-2 border-indigo-500">
       <Tree
         initialData={data}
         openByDefault={false}
@@ -68,12 +67,12 @@ function Node({ node, style }: NodeRendererProps<TreeModel>) {
   const Icon = node.children ? FcFolder : FcFile;
   return (
     <div style={styles} onClick={() => node.isInternal && node.toggle()}>
-      <span>
+      <span className="flex">
         {node.children && node.children.length > 0 && node.isOpen && <FaCaretDown />}
         {node.children && node.children.length > 0 && !node.isOpen && <FaCaretRight />}
         <Icon />
       </span>
-      <span>{node.data.name}</span>
+      <span className="cursor-default">{node.data.name}</span>
     </div>
   );
 }

@@ -40,8 +40,17 @@ export const Wrapper = () => {
 
   return (
     <div>
-      <input type="text" onChange={handleInput} />
-      <div className="flex flex-row" style={{ display: "flex" }}>
+      <div className="flex flex-col m-4">
+        <label htmlFor="input">Search node:</label>
+        <input
+          id="input"
+          type="text"
+          onChange={handleInput}
+          className="input input-bordered w-full max-w-xs"
+          placeholder="Search ..."
+        />
+      </div>
+      <div className="flex flex-row border-t-2 border-indigo-500 m-4">
         <FolderTree
           data={treeData}
           handleActiveNode={handleActiveNode}

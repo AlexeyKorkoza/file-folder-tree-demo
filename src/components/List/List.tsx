@@ -32,7 +32,6 @@ export const List: FC<Props> = ({ data, onClickTableRow }) => {
           return <Icon />;
         },
       }),
-      // @ts-ignore
       columnHelper.accessor("name", {
         header: "Name",
       }),
@@ -52,11 +51,9 @@ export const List: FC<Props> = ({ data, onClickTableRow }) => {
           return extension;
         },
       }),
-      // @ts-ignore
       columnHelper.accessor("size", {
         header: "Size",
       }),
-      // @ts-ignore
       columnHelper.accessor("date", {
         header: "Date",
         cell: (props: CellContext<TableColumnsModel, Date>): ReactNode => {
@@ -73,7 +70,6 @@ export const List: FC<Props> = ({ data, onClickTableRow }) => {
 
   return (
     <div>
-      <h1>List</h1>
       <Table<TableColumnsModel> columns={columns} data={data} onClickTableRow={onClickTableRow} />
     </div>
   );

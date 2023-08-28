@@ -15,7 +15,6 @@ import type {
   Header,
   Row,
   Cell,
-  SortingOptions,
   TableOptions,
 } from "@tanstack/react-table";
 
@@ -23,9 +22,7 @@ type Props<T> = {
   columns: Array<ColumnDef<T>>;
   data: Array<T>;
   defaultSorting?: SortingState;
-  isAllowedSorting?: boolean;
   onSort?: (sort: SortingState | null) => void;
-  sortingOptions?: SortingOptions<T>;
   overrideTableClassName?: string;
   onClickTableRow?: (row: Row<T>) => void;
 };
@@ -34,31 +31,22 @@ export const Table = <T extends object>({
   columns,
   data = [],
   defaultSorting = [],
-  isAllowedSorting = true,
   onSort,
-  sortingOptions = {},
   overrideTableClassName = "",
   onClickTableRow,
 }: Props<T>) => {
   const [sorting, setSorting] = React.useState<SortingState>(defaultSorting);
 
-  let options: TableOptions<T> = {
+  const options: TableOptions<T> = {
     columns,
     data,
     getCoreRowModel: getCoreRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    state: {
+      sorting,
+    },
   };
-  if (isAllowedSorting) {
-    options = {
-      ...options,
-      state: {
-        ...options.state,
-        sorting,
-      },
-      onSortingChange: setSorting,
-      getSortedRowModel: getSortedRowModel(),
-      ...sortingOptions,
-    };
-  }
 
   const { getHeaderGroups, getRowModel } = useReactTable<T>(options);
 
@@ -68,7 +56,7 @@ export const Table = <T extends object>({
     }
   }, [sorting]);
 
-  const tableClassName = clsx("data-table", overrideTableClassName);
+  const tableClassName = clsx("table", overrideTableClassName);
 
   return (
     <table className={tableClassName}>
@@ -103,7 +91,11 @@ export const Table = <T extends object>({
       <tbody>
         {getRowModel().rows.map((row: Row<T>) => {
           return (
-            <tr key={row.id} onClick={() => onClickTableRow && onClickTableRow(row)}>
+            <tr
+              key={row.id}
+              onClick={() => onClickTableRow && onClickTableRow(row)}
+              className="cursor-default"
+            >
               {row.getVisibleCells().map((cell: Cell<T, unknown>) => {
                 return (
                   <td key={cell.id} className="p-2">
